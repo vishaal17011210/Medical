@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#vital-signs">Vital Signs</a></li>
+        <li><a href="#medical-history">Medical History</a></li>
+        <li><a href="#appointments">Appointments</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="home">
+      <h1>Welcome to Health Hub</h1>
+     <!-- index.html -->
+<a href="reg.html" class="register-now-link">Register Now</a>
+    </section>
+    <section id="vital-signs">
+      <h1>Vital Signs</h1>
+      <form id="vital-signs-form">
+        <label for="temperature">Temperature:</label>
+        <input type="number" id="temperature" name="temperature"><br><br>
+        <label for="blood-pressure">Blood Pressure:</label>
+        <input type="number" id="blood-pressure" name="blood-pressure"><br><br>
+        <label for="heart-rate">Heart Rate:</label>
+        <input type="number" id="heart-rate" name="heart-rate"><br><br>
+        <button id="submit-vital-signs">Submit</button>
+      </form>
+      <div id="vital-signs-list"></div>
+    </section>
+    <section id="medical-history">
+      <h1>Medical History</h1>
+      <form id="medical-history-form">
+        <label for="medical-history-text">Medical History:</label>
+        <textarea id="medical-history-text" name="medical-history-text"></textarea><br><br>
+        <button id="submit-medical-history">Submit</button>
+      </form>
+      <div id="medical-history-list"></div>
+    </section>
+    <section id="appointments">
+      <h1>Appointments</h1>
+      <form id="appointments-form">
+        <label for="appointment-date">Appointment Date:</label>
+        <input type="date" id="appointment-date" name="appointment-date"><br><br>
+        <label for="appointment-time">Appointment Time:</label>
+        <input type="time" id="appointment-time" name="appointment-time"><br><br>
+        <button id="submit-appointment">Submit</button>
+      </form>
+      <div id="appointments-list"></div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prescription Request Form</title>
+  <style>
+    /* Add some basic styling to the form */
+    form {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+    }
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prescription Request Form</h1>
+  <form id="prescription-request-form">
+    <label for="requested date"> PRESCRIPTION</label>
+     <td><label for="date">Date:</label>
+    <input type="date" id="date" name="date"></td>
+    <label for="patient-name">Patient Name:</label>
+    <input type="text" id="patient-name" name="patient-name"><br><br>
+     <label for="patient-AGE">Patient Age:</label>
+    <input type="text" id="patient-age" name="patient-age"><br><br>
+    <label for="medicine">Medicine:</label>
+    <input type="text" id="medicine" name="medicine"><br><br>
+    <label for="dosage">Dosage:</label>
+    <input type="text" id="dosage" name="dosage"><br><br>
+    <label for="instructions">Instructions:</label>
+    <textarea id="instructions" name="instructions"></textarea><br><br>
+    <button type="submit" id="submit-btn">Submit Prescription Request</button>
+  </form>
+
+  <script>
+    const prescriptionRequestForm = document.getElementById('prescription-request-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    submitBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      const patientName = document.getElementById('patient-name').value;
+      const medicine = document.getElementById('medicine').value;
+      const dosage = document.getElementById('dosage').value;
+      const instructions = document.getElementById('instructions').value;
+
+      if (patientName && medicine && dosage && instructions) {
+        const prescriptionRequest = {
+          patientName,
+          medicine,
+          dosage,
+          instructions
+        };
+
+        fetch('/prescription-request', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(prescriptionRequest)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Prescription request submitted successfully!');
+          } else {
+            const errorMessage = data.error || 'Error submitting prescription request';
+            alert(errorMessage);
+          }
+        })
+        .catch(error => {
+          console.error('Error submitting prescription request:', error);
+        });
+      } else {
+        alert('Please fill in all fields');
+      }
+    });
+  </script>
+</body>
+</html>
